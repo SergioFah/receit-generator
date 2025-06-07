@@ -33,4 +33,35 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>1.7.25</version>
+                <executions>
+                    <execution>
+                        <id>l4j-clui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outfile>${project.build.directory}/${project.artifactId}.exe</outfile>
+                    <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
+                    <dontWrapJar>false</dontWrapJar>
+                    <headerType>gui</headerType> <!-- ou console -->
+                    <jre>
+                        <minVersion>11</minVersion>
+                        <runtimeBits>64</runtimeBits>
+                    </jre>
+                    <!-- opcional: <icon>src/main/resources/app.ico</icon> -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
 </project>

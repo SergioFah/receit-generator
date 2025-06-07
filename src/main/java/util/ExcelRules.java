@@ -1,6 +1,7 @@
 package util;
 
 import model.Meal;
+import model.Week;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -35,13 +36,12 @@ public class ExcelRules {
         }
     }
 
-    public static String getSemanas(Sheet sheet) {
+    public static int getWeekAmount(Sheet sheet) {
         Row row = sheet.getRow(3);
         Cell cell = row.getCell(2);
 
         try {
-            String result = String.valueOf(cell.getNumericCellValue());
-            return result.substring(0, result.length() - 2);
+            return (int) cell.getNumericCellValue();
         } catch (Exception e) {
             throw new RuntimeException("Não foi possível obter o semanas");
         }
@@ -59,55 +59,74 @@ public class ExcelRules {
         }
     }
 
-    public static List<Meal> getMealList(Sheet sheet, int week) {
-        List<Meal> meals = new ArrayList<>();
+    public static Meal getMealAtRow(Sheet sheet, int row, int week) {
+        int columnOffset = week > 1 ? ((week * 12) + 1) : 1;
+        int rowOffset = row + 5;
         StringBuffer mealNameAux = new StringBuffer();
-        week++;
-        Meal auxMeal = new Meal();
+        Meal meal = new Meal();
         Cell auxCell;
-        int count = 0;
-        for (int i = 187; i < 246; i++) {
-            auxCell = sheet.getRow(i).getCell(week);
 
-            if (count == 0) {
-                auxMeal.setQnt(auxCell.getNumericCellValue());
-                count++;
-                continue;
-            }
+        meal.setQnt(sheet.getRow(rowOffset).getCell(columnOffset + 10).getNumericCellValue());
+        meal.setPrice(sheet.getRow(rowOffset - 4).getCell(columnOffset + 10).getNumericCellValue());
+        meal.setTipo(sheet.getRow(rowOffset - 6).getCell(columnOffset + 1).getStringCellValue());
 
+        for (int i = 0; i < 14; i++) {
+            auxCell = sheet.getRow(i + rowOffset).getCell(columnOffset);
             if(!auxCell.getCellType().equals(CellType.BLANK)) {
                 if (!auxCell.getStringCellValue().isBlank()) {
                     mealNameAux.append(mealItemFormatter(auxCell.getStringCellValue()));
-                    if (count == 1) {
+                    if (i == 0) {
                         mealNameAux.append(" com ");
                     } else {
                         mealNameAux.append(", ");
                     }
-                    count++;
-                    continue;
                 }
             }
+        }
 
-            if (count == 9) {
-                auxMeal.setName(mealDescFormatter(mealNameAux.toString()));
-                meals.add(auxMeal);
-                auxMeal = new Meal();
-                mealNameAux = new StringBuffer();
-                count = 0;
-                continue;
+        if (mealNameAux.toString().isBlank()) {
+            return null;
+        }
+
+        meal.setName(mealDescFormatter(mealNameAux.toString()));
+
+        return meal;
+    }
+
+    public static List<Week> getMealList(Sheet sheet, int weekAmount) {
+        List<Week> weeks = new ArrayList<>();
+
+        for (int i = 1; i <= weekAmount; i++) {
+            Week week = new Week();
+            List<Meal> lunchList = new ArrayList<>();
+            List<Meal> dinnerList = new ArrayList<>();
+            int lunchQnt = 0;
+            int dinnerQnt = 0;
+
+            int[] rowIndexes = {9, 30, 51, 72, 93, 114};
+
+            for (int row : rowIndexes) {
+                Meal meal = getMealAtRow(sheet, row, i);
+
+                if (meal == null) {
+                    continue;
+                }
+
+                if (meal.getTipo().equals("ALMOÇO")) {
+                    lunchQnt+=meal.getQnt();
+                    lunchList.add(meal);
+                } else {
+                    dinnerQnt+=meal.getQnt();
+                    dinnerList.add(meal);
+                }
             }
-            count++;
+            week.setLuncQnt(lunchQnt);
+            week.setDinnerQnt(dinnerQnt);
+            week.setLunchList(lunchList);
+            week.setDinnerList(dinnerList);
+            weeks.add(week);
         }
 
-        return meals;
-    }
-
-    private static String cleanEnding(String input) {
-        input = input.trim();
-        if (input.endsWith(",") || input.endsWith(" e") || input.endsWith(" com")) {
-            return input.substring(0, input.lastIndexOf(" "));
+        return weeks;
         }
-        return input;
     }
-
-}
