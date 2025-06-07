@@ -13,7 +13,7 @@ public class Meal {
 
     @Override
     public String toString() {
-        return String.format("- %s - R$ %.2f (%.0f)", name, price, qnt);
+        return String.format("• %s - R$ %.2f (%.0f)", name, price, qnt);
     }
 }
 

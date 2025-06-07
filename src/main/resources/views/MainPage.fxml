@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,6 +14,12 @@
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <TextField fx:id="tfSheetSelector" editable="false" focusTraversable="false" onMouseClicked="#onClickSheetSelector" pickOnBounds="false" promptText="Selecione uma planilha..." />
+            <HBox alignment="CENTER" spacing="10.0">
+               <children>
+                  <Label alignment="TOP_CENTER" text="Detalhas de entrega" />
+                  <TextField fx:id="tfDeliveryInfo" focusTraversable="false" pickOnBounds="false" promptText="Insira" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
             <HBox alignment="CENTER" spacing="100.0">
                <VBox.margin>
                   <Insets />

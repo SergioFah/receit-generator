@@ -22,6 +22,9 @@ public class MainPageController {
     private TextField tfSheetSelector;
 
     @FXML
+    private TextField tfDeliveryInfo;
+
+    @FXML
     private Button btnGenerate;
 
     @FXML
@@ -51,6 +54,7 @@ public class MainPageController {
     public void OnGenerateButtonClicked (MouseEvent event) {
         LoadingUtil.runWithLoading(apMain, () -> {
             SheetCrawler.getInstance().initializeCrawler(file);
+            SheetCrawler.getInstance().setDelivery(tfDeliveryInfo.getText());
             SheetCrawler.getInstance().generateTextResult();
         }, () -> {
             taResult.setText(SheetCrawler.getInstance().getResultText().toString());

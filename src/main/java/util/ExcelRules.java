@@ -1,6 +1,7 @@
 package util;
 
 import model.Meal;
+import model.PaymentValues;
 import model.Week;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -128,5 +129,16 @@ public class ExcelRules {
         }
 
         return weeks;
+        }
+
+        public static PaymentValues getPaymentValues(Sheet sheet) {
+            PaymentValues paymentValues = new PaymentValues();
+
+            paymentValues.setTotalMonthly(sheet.getRow(151).getCell(2).getNumericCellValue());
+            paymentValues.setTotalWithDelivery(sheet.getRow(152).getCell(3).getNumericCellValue());
+            paymentValues.setDeliveryTax(sheet.getRow(153).getCell(2).getNumericCellValue());
+            paymentValues.setDiscountedPixValue(sheet.getRow(172).getCell(3).getNumericCellValue());
+
+            return paymentValues;
         }
     }

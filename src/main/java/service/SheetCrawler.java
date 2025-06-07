@@ -1,13 +1,14 @@
 package service;
 
 import lombok.Getter;
+import lombok.Setter;
 import model.Meal;
+import model.PaymentValues;
 import model.Week;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import javax.xml.transform.Result;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,8 +31,10 @@ public class SheetCrawler {
     private String weeklyKit;
     private int weekAmount;
     private String mealsAmount;
-    private String delivery;
-    private String mealType;
+    @Setter
+    private String delivery = "";
+    private PaymentValues paymentValues;
+
     private List<Week> meals;
 
     @Getter
@@ -52,6 +55,7 @@ public class SheetCrawler {
         weekAmount = getWeekAmount(sheet);
         mealsAmount = getTotalDeRefeicoes(sheet);
         meals = getMealList(sheet, weekAmount);
+        paymentValues = getPaymentValues(sheet);
     }
 
     public void initializeCrawler(File file) {
@@ -64,8 +68,6 @@ public class SheetCrawler {
             this.weeklyKit = "";
             this.weekAmount = 1;
             this.mealsAmount = "";
-            this.delivery = "11/06 - quarta pela manhã";
-            this.mealType = "Almoço";
             this.meals = new ArrayList<>();
             this.resultText = new StringBuffer();
         } catch (IOException e) {
@@ -97,6 +99,10 @@ public class SheetCrawler {
         resultText.append("*Entrega:* ");
         resultText.append(delivery);
         resultText.append("\n");
+        resultText.append("\n");
+
+        resultText.append("Obs.: Todos os acompanhamentos inclusos, exceto salada crua. Variamos de acordo com seu plano. \n");
+        resultText.append("\n");
 
         int semana = 1;
         for (Week week : meals) {
@@ -117,15 +123,35 @@ public class SheetCrawler {
             if (!week.getDinnerList().isEmpty()) {
                 resultText.append("Jantar - ");
                 resultText.append(week.getDinnerQnt());
-                resultText.append(" refeições\n");
+                resultText.append(" refeições\n\n");
 
                 for (Meal meal : week.getDinnerList()) {
                     resultText.append(meal.toString()).append("\n");
                 }
             }
 
-            resultText.append("\n"); // separador entre semanas
+            resultText.append("\n");
         }
+
+        resultText.append(paymentValues.getTotalMonthly());
+        resultText.append("\n+\n");
+        resultText.append(paymentValues.getDeliveryTax());
+        resultText.append(" (frete)\n");
+        resultText.append("=\n");
+        resultText.append(paymentValues.getTotalWithDelivery());
+        resultText.append("\n");
+        resultText.append("\n");
+        resultText.append("Forma de pagamento: \n");
+        resultText.append("- *Crédito à vista via link de pagamento:* ");
+        resultText.append(paymentValues.getTotalWithDelivery());
+        resultText.append("\n");
+        resultText.append("- *PIX:* ");
+        resultText.append(paymentValues.getDiscountedPixValue());
+        resultText.append("(-5%)\n");
+        resultText.append("\n");
+
+        resultText.append("*PIX CNPJ: 45372421000181*\n");
+        resultText.append("Obs.: Pedido será confirmado mediante pagamento antecipado");
 
     }
 }
