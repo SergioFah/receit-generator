@@ -1,14 +1,19 @@
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class MainApp extends Application {
     @Override
-    public void start(Stage stage) {
-        Label label = new Label("Hello, JavaFX!");
-        Scene scene = new Scene(label, 400, 200);
-        stage.setTitle("Gerador de Resumo do Pedido");
+    public void start(Stage stage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/MainPage.fxml"));
+        Parent root = loader.load();
+
+        Scene scene = new Scene(root);
+        stage.setTitle("Gerador de Confirmação de Pedido");
         stage.setScene(scene);
         stage.show();
     }

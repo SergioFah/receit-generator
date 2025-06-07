@@ -9,7 +9,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import java.util.ArrayList;
 import java.util.List;
 
-import static util.CellUtils.getValueAt;
 import static util.StringUtils.*;
 
 public class ExcelRules {
@@ -99,9 +98,6 @@ public class ExcelRules {
             }
             count++;
         }
-
-
-
 
         return meals;
     }
