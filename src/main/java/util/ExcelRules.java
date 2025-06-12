@@ -25,7 +25,7 @@ public class ExcelRules {
         }
     }
 
-    public static String getKitSemanal(Sheet sheet) {
+    public static String getWeeklyKit(Sheet sheet) {
         Row row = sheet.getRow(2);
         Cell cell = row.getCell(2);
 
@@ -48,7 +48,7 @@ public class ExcelRules {
         }
     }
 
-    public static String getTotalDeRefeicoes(Sheet sheet) {
+    public static String getMealsAmount(Sheet sheet) {
         Row row = sheet.getRow(4);
         Cell cell = row.getCell(2);
 
@@ -61,7 +61,7 @@ public class ExcelRules {
     }
 
     public static Meal getMealAtRow(Sheet sheet, int row, int week) {
-        int columnOffset = week > 1 ? ((week * 12) + 1) : 1;
+        int columnOffset = week > 1 ? ((week * 14) + 1) : 1;
         int rowOffset = row + 5;
         StringBuffer mealNameAux = new StringBuffer();
         Meal meal = new Meal();

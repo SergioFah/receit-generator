@@ -51,9 +51,9 @@ public class SheetCrawler {
 
     private void crawl() {
         clientName = getClient(sheet);
-        weeklyKit = getKitSemanal(sheet);
+        weeklyKit = getWeeklyKit(sheet);
         weekAmount = getWeekAmount(sheet);
-        mealsAmount = getTotalDeRefeicoes(sheet);
+        mealsAmount = getMealsAmount(sheet);
         meals = getMealList(sheet, weekAmount);
         paymentValues = getPaymentValues(sheet);
     }
