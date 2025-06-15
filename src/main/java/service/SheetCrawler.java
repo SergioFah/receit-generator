@@ -103,7 +103,7 @@ public class SheetCrawler {
 
         resultText.append("Obs.: Todos os acompanhamentos inclusos, exceto salada crua. Variamos de acordo com seu plano. \n");
         resultText.append("\n");
-        resultText.append("----------------------------------------------------\n\n");
+        resultText.append("-----\n");
 
         int semana = 1;
         for (Week week : meals) {
@@ -114,7 +114,7 @@ public class SheetCrawler {
                 resultText.append(week.getLuncQnt()).append(" refeições\n");
 
                 for (Meal meal : week.getLunchList()) {
-                    resultText.append("- ").append(meal.toString()).append("\n");
+                    resultText.append(meal.toString()).append("\n");
                 }
                 resultText.append("\n");
             }
@@ -124,12 +124,12 @@ public class SheetCrawler {
                 resultText.append(week.getDinnerQnt()).append(" refeições\n");
 
                 for (Meal meal : week.getDinnerList()) {
-                    resultText.append("- ").append(meal.toString()).append("\n");
+                    resultText.append(meal.toString()).append("\n");
                 }
                 resultText.append("\n");
             }
 
-            resultText.append("----------------------------------------------------\n\n");
+            resultText.append("-----\n");
         }
 
         resultText.append(paymentValues.getTotalMonthly());
@@ -144,6 +144,7 @@ public class SheetCrawler {
         resultText.append("- *Crédito à vista via link de pagamento:* ");
         resultText.append(paymentValues.getTotalWithDelivery());
         resultText.append(paymentValues.getCardDiscount());
+        resultText.append("\n");
         resultText.append("\n");
         resultText.append("- *PIX:* ");
         resultText.append(paymentValues.getDiscountedPixValue());

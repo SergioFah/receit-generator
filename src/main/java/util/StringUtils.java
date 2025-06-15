@@ -27,11 +27,11 @@ public class StringUtils {
         if (input == null) return "";
 
         return input
-                .replaceFirst("^FT\\s*", "")       // remove "FT" do começo
-                .replaceAll("\\s*\\d+\\s*", " ")   // remove números isolados
-                .replaceAll("G$", "")              // remove "G" no fim
-                .replaceAll("\\s+", " ")           // normaliza espaços
-                .trim();                           // trim final
+                .replaceFirst("^FT\\s*", "")
+                .replaceAll("\\s*\\d+\\s*", " ")
+                .replaceAll("\\s+", " ")
+                .replace("CONG VAPOR", "no vapor")
+                .trim();
     }
 
     public static String mealDescFormatter(String input) {

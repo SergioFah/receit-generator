@@ -26,7 +26,6 @@ public class ExcelRules {
     private static final int MEALS_AMOUNT_Y = 4;
     private static final int MEALS_AMOUNT_X = 2;
 
-    private static final int WEEK_COLUMN_OFFSET = 15;
     private static final int MAX_INGREDIENT_ITEMS = 14;
 
     private static final int[] MEALS_ROW_INDEX = {9, 30, 51, 72, 93, 114};
@@ -147,13 +146,20 @@ public class ExcelRules {
         }
 
         public static PaymentValues getPaymentValues(Sheet sheet) {
-            PaymentValues paymentValues = new PaymentValues();
+            PaymentValues paymentValues = null;
+
+            paymentValues = new PaymentValues();
 
             paymentValues.setTotalMonthly(sheet.getRow(151).getCell(2).getNumericCellValue());
             paymentValues.setDeliveryTax(sheet.getRow(153).getCell(2).getNumericCellValue());
 
             paymentValues.setTotalWithDelivery(sheet.getRow(172).getCell(2).getNumericCellValue());
             paymentValues.setDiscountedPixValue(sheet.getRow(172).getCell(3).getNumericCellValue());
+
+            if (paymentValues.getTotalWithDelivery().equals("R$ 0,00")  || paymentValues.getDiscountedPixValue().equals("R$ 0,00")) {
+                paymentValues.setTotalWithDelivery(sheet.getRow(171).getCell(2).getNumericCellValue());
+                paymentValues.setDiscountedPixValue(sheet.getRow(171).getCell(3).getNumericCellValue());
+            }
 
             paymentValues.setCardDiscount(sheet.getRow(168).getCell(2).getNumericCellValue());
             paymentValues.setPixDiscount(sheet.getRow(168).getCell(3).getNumericCellValue());
