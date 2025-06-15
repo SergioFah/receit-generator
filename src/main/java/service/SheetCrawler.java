@@ -103,34 +103,33 @@ public class SheetCrawler {
 
         resultText.append("Obs.: Todos os acompanhamentos inclusos, exceto salada crua. Variamos de acordo com seu plano. \n");
         resultText.append("\n");
+        resultText.append("----------------------------------------------------\n\n");
 
         int semana = 1;
         for (Week week : meals) {
-            resultText.append("*Semana ");
-            resultText.append(semana++);
-            resultText.append("* \n");
+            resultText.append("*Semana ").append(semana++).append("*\n\n");
 
             if (!week.getLunchList().isEmpty()) {
-                resultText.append("Almoço - ");
-                resultText.append(week.getLuncQnt());
-                resultText.append(" refeições\n");
+                resultText.append("*Almoço* - ");
+                resultText.append(week.getLuncQnt()).append(" refeições\n");
 
                 for (Meal meal : week.getLunchList()) {
-                    resultText.append(meal.toString()).append("\n");
+                    resultText.append("- ").append(meal.toString()).append("\n");
                 }
+                resultText.append("\n");
             }
 
             if (!week.getDinnerList().isEmpty()) {
-                resultText.append("Jantar - ");
-                resultText.append(week.getDinnerQnt());
-                resultText.append(" refeições\n\n");
+                resultText.append("*Jantar* - ");
+                resultText.append(week.getDinnerQnt()).append(" refeições\n");
 
                 for (Meal meal : week.getDinnerList()) {
-                    resultText.append(meal.toString()).append("\n");
+                    resultText.append("- ").append(meal.toString()).append("\n");
                 }
+                resultText.append("\n");
             }
 
-            resultText.append("\n");
+            resultText.append("----------------------------------------------------\n\n");
         }
 
         resultText.append(paymentValues.getTotalMonthly());
@@ -144,10 +143,12 @@ public class SheetCrawler {
         resultText.append("Forma de pagamento: \n");
         resultText.append("- *Crédito à vista via link de pagamento:* ");
         resultText.append(paymentValues.getTotalWithDelivery());
+        resultText.append(paymentValues.getCardDiscount());
         resultText.append("\n");
         resultText.append("- *PIX:* ");
         resultText.append(paymentValues.getDiscountedPixValue());
-        resultText.append("(-5%)\n");
+        resultText.append(paymentValues.getPixDiscount());
+        resultText.append("\n");
         resultText.append("\n");
 
         resultText.append("*PIX CNPJ: 45372421000181*\n");

@@ -14,9 +14,27 @@ import java.util.List;
 import static util.StringUtils.*;
 
 public class ExcelRules {
+    private static final int CLIENT_Y = 1;
+    private static final int CLIENT_X = 2;
+
+    private static final int WEEKLY_KIT_Y = 2;
+    private static final int WEEKLY_KIT_X = 2;
+
+    private static final int WEEKLY_AMOUNT_Y = 3;
+    private static final int WEEKLY_AMOUNT_X = 2;
+
+    private static final int MEALS_AMOUNT_Y = 4;
+    private static final int MEALS_AMOUNT_X = 2;
+
+    private static final int WEEK_COLUMN_OFFSET = 15;
+    private static final int MAX_INGREDIENT_ITEMS = 14;
+
+    private static final int[] MEALS_ROW_INDEX = {9, 30, 51, 72, 93, 114};
+    private static final int[] WEEK_COLUMN_INDEX = {1, 16, 29, 42};
+
     public static String getClient(Sheet sheet) {
-        Row row = sheet.getRow(1);
-        Cell cell = row.getCell(2);
+        Row row = sheet.getRow(CLIENT_Y);
+        Cell cell = row.getCell(CLIENT_X);
 
         try {
             return cell.getStringCellValue();
@@ -26,8 +44,8 @@ public class ExcelRules {
     }
 
     public static String getWeeklyKit(Sheet sheet) {
-        Row row = sheet.getRow(2);
-        Cell cell = row.getCell(2);
+        Row row = sheet.getRow(WEEKLY_KIT_Y);
+        Cell cell = row.getCell(WEEKLY_KIT_X);
 
         try {
             String result = String.valueOf(cell.getNumericCellValue());
@@ -38,8 +56,8 @@ public class ExcelRules {
     }
 
     public static int getWeekAmount(Sheet sheet) {
-        Row row = sheet.getRow(3);
-        Cell cell = row.getCell(2);
+        Row row = sheet.getRow(WEEKLY_AMOUNT_Y);
+        Cell cell = row.getCell(WEEKLY_AMOUNT_X);
 
         try {
             return (int) cell.getNumericCellValue();
@@ -49,8 +67,8 @@ public class ExcelRules {
     }
 
     public static String getMealsAmount(Sheet sheet) {
-        Row row = sheet.getRow(4);
-        Cell cell = row.getCell(2);
+        Row row = sheet.getRow(MEALS_AMOUNT_Y);
+        Cell cell = row.getCell(MEALS_AMOUNT_X);
 
         try {
             String result = String.valueOf(cell.getNumericCellValue());
@@ -61,18 +79,17 @@ public class ExcelRules {
     }
 
     public static Meal getMealAtRow(Sheet sheet, int row, int week) {
-        int columnOffset = week > 1 ? ((week * 14) + 1) : 1;
         int rowOffset = row + 5;
         StringBuffer mealNameAux = new StringBuffer();
         Meal meal = new Meal();
         Cell auxCell;
 
-        meal.setQnt(sheet.getRow(rowOffset).getCell(columnOffset + 10).getNumericCellValue());
-        meal.setPrice(sheet.getRow(rowOffset - 4).getCell(columnOffset + 10).getNumericCellValue());
-        meal.setTipo(sheet.getRow(rowOffset - 6).getCell(columnOffset + 1).getStringCellValue());
+        meal.setQnt(sheet.getRow(rowOffset).getCell(WEEK_COLUMN_INDEX[week - 1] + 10).getNumericCellValue());
+        meal.setPrice(sheet.getRow(rowOffset - 4).getCell(WEEK_COLUMN_INDEX[week - 1] + 10).getNumericCellValue());
+        meal.setTipo(sheet.getRow(rowOffset - 6).getCell(WEEK_COLUMN_INDEX[week - 1] + 1).getStringCellValue());
 
-        for (int i = 0; i < 14; i++) {
-            auxCell = sheet.getRow(i + rowOffset).getCell(columnOffset);
+        for (int i = 0; i < MAX_INGREDIENT_ITEMS; i++) {
+            auxCell = sheet.getRow(i + rowOffset).getCell(WEEK_COLUMN_INDEX[week -1]);
             if(!auxCell.getCellType().equals(CellType.BLANK)) {
                 if (!auxCell.getStringCellValue().isBlank()) {
                     mealNameAux.append(mealItemFormatter(auxCell.getStringCellValue()));
@@ -104,9 +121,7 @@ public class ExcelRules {
             int lunchQnt = 0;
             int dinnerQnt = 0;
 
-            int[] rowIndexes = {9, 30, 51, 72, 93, 114};
-
-            for (int row : rowIndexes) {
+            for (int row : MEALS_ROW_INDEX) {
                 Meal meal = getMealAtRow(sheet, row, i);
 
                 if (meal == null) {
@@ -135,9 +150,13 @@ public class ExcelRules {
             PaymentValues paymentValues = new PaymentValues();
 
             paymentValues.setTotalMonthly(sheet.getRow(151).getCell(2).getNumericCellValue());
-            paymentValues.setTotalWithDelivery(sheet.getRow(152).getCell(3).getNumericCellValue());
             paymentValues.setDeliveryTax(sheet.getRow(153).getCell(2).getNumericCellValue());
+
+            paymentValues.setTotalWithDelivery(sheet.getRow(172).getCell(2).getNumericCellValue());
             paymentValues.setDiscountedPixValue(sheet.getRow(172).getCell(3).getNumericCellValue());
+
+            paymentValues.setCardDiscount(sheet.getRow(168).getCell(2).getNumericCellValue());
+            paymentValues.setPixDiscount(sheet.getRow(168).getCell(3).getNumericCellValue());
 
             return paymentValues;
         }

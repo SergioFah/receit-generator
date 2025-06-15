@@ -10,6 +10,8 @@ public class PaymentValues {
     private double deliveryTax;
     private double discountedPixValue;
     private double totalWithDelivery;
+    private double pixDiscount;
+    private double cardDiscount;
 
     public String getTotalMonthly() {
         return String.format("R$ %.2f", totalMonthly);
@@ -25,6 +27,20 @@ public class PaymentValues {
 
     public String getTotalWithDelivery() {
         return String.format("R$ %.2f", totalWithDelivery);
+    }
+
+    public String getPixDiscount() {
+        if (pixDiscount > 0) {
+            return String.format("(-%.0f%%)", pixDiscount);
+        }
+        return "";
+    }
+
+    public String getCardDiscount() {
+        if (cardDiscount > 0) {
+            return String.format("(-%.0f%%)", cardDiscount);
+        }
+        return "";
     }
 
 }
