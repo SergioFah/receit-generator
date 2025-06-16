@@ -36,6 +36,32 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>MainApp</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
                 <version>1.7.25</version>
@@ -46,20 +72,32 @@
                         <goals>
                             <goal>launch4j</goal>
                         </goals>
+                        <configuration>
+                            <dontWrapJar>false</dontWrapJar>
+                            <headerType>gui</headerType>
+                            <jar>C:\dev\receit-generator\target\receit-generator-1.0-SNAPSHOT-jar-with-dependencies.jar</jar>
+                            <outfile>C:\dev\receit-generator\GeradorPedido.exe</outfile>
+                            <errTitle></errTitle>
+                            <cmdLine></cmdLine>
+                            <chdir>.</chdir>
+                            <priority>normal</priority>
+                            <downloadUrl></downloadUrl>
+                            <supportUrl></supportUrl>
+                            <stayAlive>false</stayAlive>
+                            <restartOnCrash>false</restartOnCrash>
+                            <manifest></manifest>
+                            <icon></icon>
+                            <classPath>
+                                <mainClass>MainApp</mainClass>
+                            </classPath>
+                            <jre>
+                                <path>C:\Users\fahse\.jdks\liberica-full-11.0.27</path>
+                            </jre>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <outfile>${project.build.directory}/${project.artifactId}.exe</outfile>
-                    <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
-                    <dontWrapJar>false</dontWrapJar>
-                    <headerType>gui</headerType> <!-- ou console -->
-                    <jre>
-                        <minVersion>11</minVersion>
-                        <runtimeBits>64</runtimeBits>
-                    </jre>
-                    <!-- opcional: <icon>src/main/resources/app.ico</icon> -->
-                </configuration>
             </plugin>
+
         </plugins>
     </build>
 
