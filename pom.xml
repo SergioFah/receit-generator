@@ -9,12 +9,24 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
+        <!-- JavaFX - ADICIONADO -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>17.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>17.0.2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -35,6 +47,7 @@
 
     <build>
         <plugins>
+            <!-- Fat JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -60,39 +73,58 @@
                 </executions>
             </plugin>
 
-
+            <!-- JPACKAGE -->
             <plugin>
-                <groupId>com.akathist.maven.plugins.launch4j</groupId>
-                <artifactId>launch4j-maven-plugin</artifactId>
-                <version>1.7.25</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>l4j-clui</id>
-                        <phase>package</phase>
+                        <id>package-with-jpackage</id>
+                        <phase>install</phase>
                         <goals>
-                            <goal>launch4j</goal>
+                            <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <dontWrapJar>false</dontWrapJar>
-                            <headerType>gui</headerType>
-                            <jar>C:\dev\receit-generator\target\receit-generator-1.0-SNAPSHOT-jar-with-dependencies.jar</jar>
-                            <outfile>C:\dev\receit-generator\GeradorPedido.exe</outfile>
-                            <errTitle></errTitle>
-                            <cmdLine></cmdLine>
-                            <chdir>.</chdir>
-                            <priority>normal</priority>
-                            <downloadUrl></downloadUrl>
-                            <supportUrl></supportUrl>
-                            <stayAlive>false</stayAlive>
-                            <restartOnCrash>false</restartOnCrash>
-                            <manifest></manifest>
-                            <icon></icon>
-                            <classPath>
-                                <mainClass>MainApp</mainClass>
-                            </classPath>
-                            <jre>
-                                <path>C:\Users\fahse\.jdks\liberica-full-11.0.27</path>
-                            </jre>
+                            <executable>jpackage</executable>
+                            <arguments>
+                                <argument>--type</argument>
+                                <argument>exe</argument> <!-- INSTALADOR .exe -->
+                                <argument>--input</argument>
+                                <argument>target</argument>
+                                <argument>--name</argument>
+                                <argument>GeradorPedido</argument>
+                                <argument>--main-jar</argument>
+                                <argument>receit-generator-1.0-SNAPSHOT-jar-with-dependencies.jar</argument>
+                                <argument>--main-class</argument>
+                                <argument>MainApp</argument>
+                                <argument>--dest</argument>
+                                <argument>dist</argument>
+
+                                <!-- OPÇÕES DO INSTALADOR -->
+                                <argument>--win-shortcut</argument>
+                                <argument>--win-menu</argument>
+                                <argument>--win-dir-chooser</argument>
+
+                                <!-- INFORMAÇÕES DO APP -->
+                                <argument>--app-version</argument>
+                                <argument>1.0.0</argument>
+                                <argument>--vendor</argument>
+                                <argument>SergioFah</argument>
+                                <argument>--description</argument>
+                                <argument>Gerador de Pedidos para </argument>
+                                <argument>--copyright</argument>
+                                <argument>Copyright 2025 Sergio</argument>
+
+                                <!-- JVM OPTIONS -->
+                                <argument>--java-options</argument>
+                                <argument>-Xmx512m -Dfile.encoding=UTF-8</argument>
+
+                                <!-- Se tiver ícone, descomenta abaixo -->
+                                 <argument>--icon</argument>
+                                 <argument>src/main/resources/icon.ico</argument>
+
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
@@ -100,6 +132,5 @@
 
         </plugins>
     </build>
-
 
 </project>
