@@ -108,7 +108,7 @@
 
                                 <!-- INFORMAÇÕES DO APP -->
                                 <argument>--app-version</argument>
-                                <argument>1.0.0</argument>
+                                <argument>1.1.0</argument>
                                 <argument>--vendor</argument>
                                 <argument>SergioFah</argument>
                                 <argument>--description</argument>
