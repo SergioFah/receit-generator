@@ -142,7 +142,7 @@ public class SheetCrawler {
         resultText.append("\n");
         resultText.append("Forma de pagamento: \n");
         resultText.append("- *Crédito à vista via link de pagamento:* ");
-        resultText.append(paymentValues.getTotalWithDelivery());
+        resultText.append(paymentValues.getDiscountedCardValue());
         resultText.append(paymentValues.getCardDiscount());
         resultText.append("\n");
         resultText.append("\n");
@@ -152,7 +152,7 @@ public class SheetCrawler {
         resultText.append("\n");
         resultText.append("\n");
 
-        resultText.append("*PIX CNPJ: 45372421000181*\n");
+        resultText.append("*PIX CNPJ: 45372421000181*\n\n");
         resultText.append("Obs.: Pedido será confirmado mediante pagamento antecipado");
 
     }

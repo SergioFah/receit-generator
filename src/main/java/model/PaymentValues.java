@@ -10,6 +10,7 @@ public class PaymentValues {
     private double totalMonthly;
     private double deliveryTax;
     private double discountedPixValue;
+    private double discountedCardValue;
     private double totalWithDelivery;
     private double pixDiscount;
     private double cardDiscount;
@@ -24,6 +25,10 @@ public class PaymentValues {
 
     public String getDiscountedPixValue() {
         return String.format("R$ %.2f", MathUtil.round(discountedPixValue, 1));
+    }
+
+    public String getDiscountedCardValue() {
+        return String.format("R$ %.2f", MathUtil.round(discountedCardValue, 1));
     }
 
     public String getTotalWithDelivery() {

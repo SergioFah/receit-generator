@@ -153,8 +153,9 @@ public class ExcelRules {
             paymentValues.setTotalMonthly(sheet.getRow(151).getCell(2).getNumericCellValue());
             paymentValues.setDeliveryTax(sheet.getRow(153).getCell(2).getNumericCellValue());
 
-            paymentValues.setTotalWithDelivery(sheet.getRow(172).getCell(2).getNumericCellValue());
+            paymentValues.setTotalWithDelivery(sheet.getRow(152).getCell(3).getNumericCellValue());
             paymentValues.setDiscountedPixValue(sheet.getRow(172).getCell(3).getNumericCellValue());
+            paymentValues.setDiscountedCardValue(sheet.getRow(172).getCell(2).getNumericCellValue());
 
             if (paymentValues.getTotalWithDelivery().equals("R$ 0,00")  || paymentValues.getDiscountedPixValue().equals("R$ 0,00")) {
                 paymentValues.setTotalWithDelivery(sheet.getRow(171).getCell(2).getNumericCellValue());
