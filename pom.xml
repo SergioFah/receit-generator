@@ -81,7 +81,7 @@
                 <executions>
                     <execution>
                         <id>package-with-jpackage</id>
-                        <phase>install</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
