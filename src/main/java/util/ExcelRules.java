@@ -61,7 +61,7 @@ public class ExcelRules {
         try {
             return (int) cell.getNumericCellValue();
         } catch (Exception e) {
-            throw new RuntimeException("Não foi possível obter o semanas");
+            throw new RuntimeException("Não foi possível obter as semanas");
         }
     }
 
@@ -73,7 +73,7 @@ public class ExcelRules {
             String result = String.valueOf(cell.getNumericCellValue());
             return result.substring(0, result.length() - 2);
         } catch (Exception e) {
-            throw new RuntimeException("Não foi possível obter o semanas");
+            throw new RuntimeException("Não foi possível obter o total de refeições");
         }
     }
 
@@ -157,8 +157,8 @@ public class ExcelRules {
             paymentValues.setDiscountedPixValue(sheet.getRow(172).getCell(3).getNumericCellValue());
             paymentValues.setDiscountedCardValue(sheet.getRow(172).getCell(2).getNumericCellValue());
 
-            if (paymentValues.getTotalWithDelivery().equals("R$ 0,00")  || paymentValues.getDiscountedPixValue().equals("R$ 0,00")) {
-                paymentValues.setTotalWithDelivery(sheet.getRow(171).getCell(2).getNumericCellValue());
+            if (paymentValues.getDiscountedCardValue().equals("R$ 0,00")  || paymentValues.getDiscountedPixValue().equals("R$ 0,00")) {
+                paymentValues.setDiscountedCardValue(sheet.getRow(171).getCell(2).getNumericCellValue());
                 paymentValues.setDiscountedPixValue(sheet.getRow(171).getCell(3).getNumericCellValue());
             }
 

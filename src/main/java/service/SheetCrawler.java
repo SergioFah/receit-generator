@@ -8,6 +8,7 @@ import model.Week;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import util.ExcelRules;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -135,7 +136,10 @@ public class SheetCrawler {
         resultText.append(paymentValues.getTotalMonthly());
         resultText.append("\n+\n");
         resultText.append(paymentValues.getDeliveryTax());
-        resultText.append(" (frete)\n");
+        resultText.append(" (frete");
+        if (weekAmount > 1) {
+            resultText.append(" - ").append(weekAmount).append( " semanas)\n");
+        } else resultText.append(")\n");
         resultText.append("=\n");
         resultText.append(paymentValues.getTotalWithDelivery());
         resultText.append("\n");
