@@ -97,7 +97,12 @@ public class SheetCrawler {
         resultText.append(weekAmount);
         resultText.append("\n");
 
-        resultText.append("*Entrega:* ");
+
+        if (weekAmount > 1) {
+            resultText.append("*Primeira entrega:* ");
+        } else {
+            resultText.append("*Entrega:* ");
+        }
         resultText.append(delivery);
         resultText.append("\n");
         resultText.append("\n");

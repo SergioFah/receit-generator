@@ -28,6 +28,7 @@ public class StringUtils {
 
         return input
                 .replaceFirst("^FT\\s*", "")
+                .replace("LATA", "")
                 .replaceAll("\\s*\\d+\\s*", " ")
                 .replaceAll("\\s+", " ")
                 .replace("CONG VAPOR", "no vapor")
