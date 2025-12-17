@@ -58,7 +58,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>MainApp</mainClass>
+                            <mainClass>Launcher</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -97,7 +97,7 @@
                                 <argument>--main-jar</argument>
                                 <argument>receit-generator-1.0-SNAPSHOT-jar-with-dependencies.jar</argument>
                                 <argument>--main-class</argument>
-                                <argument>MainApp</argument>
+                                <argument>Launcher</argument>
                                 <argument>--dest</argument>
                                 <argument>dist</argument>
 
@@ -108,13 +108,13 @@
 
                                 <!-- INFORMAÇÕES DO APP -->
                                 <argument>--app-version</argument>
-                                <argument>1.2.0</argument>
+                                <argument>1.2.1</argument>
                                 <argument>--vendor</argument>
                                 <argument>SergioFah</argument>
                                 <argument>--description</argument>
                                 <argument>Gerador de Pedidos para </argument>
                                 <argument>--copyright</argument>
-                                <argument>Copyright 2025 Sergio</argument>
+                                <argument>Copyright 2025 Sergio Faheina</argument>
 
                                 <!-- JVM OPTIONS -->
                                 <argument>--java-options</argument>

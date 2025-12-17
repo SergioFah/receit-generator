@@ -13,7 +13,7 @@ public class MainApp extends Application {
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
-        stage.setTitle("Gerador de Confirmação de Pedido");
+        stage.setTitle("Gerador de Confirmação de Pedido - BMPC");
         stage.setScene(scene);
         stage.show();
     }
